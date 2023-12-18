@@ -253,6 +253,10 @@ def rentFinal(request, vehicle_id, array1, array2):
     formatted_array1 = f"{fecha1_int[0]}-{fecha1_int[1]:02d}-{fecha1_int[2]:02d}"
     formatted_array2 = f"{fecha2_int[0]}-{fecha2_int[1]:02d}-{fecha2_int[2]:02d}"
 
+    vehicle = Vehicle.objects.get(id=vehicle_id)
+        # cambia a false ya que se hace efectiva la renta final
+    vehicle.availability = False
+    vehicle.save()
     reservation = Reservation(
         client_id=user_id,
         price_total=price_total,
