@@ -160,10 +160,19 @@ def contacto(request):
         return render(request, 'contacto.html')
     elif request.method == 'POST':
         try:
-            # Crea una instancia del modelo Comments con los datos del formulario
+            if request.user.is_authenticated:
+                
+                username = request.user.first_name
+                email = request.user.email
+            else:
+               
+                username = request.POST["nombre"]
+                email = request.POST["correo"]
+
+          
             comment = Comments(
-                username=request.POST["nombre"],
-                email=request.POST["correo"],
+                username=username,
+                email=email,
                 comment=request.POST["mensaje"]
             )
             comment.save()
@@ -172,7 +181,7 @@ def contacto(request):
 
         return redirect('/')
     else:
-        return HttpResponse("Método HTTP no permitido") 
+        return HttpResponse("Método HTTP no permitido")
 
 
 
